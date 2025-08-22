@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard</title>
+  <link href="https://fonts.googleapis.com/css?family=Inter:400,600,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --accent: #22c55e;
+      --bg: #f7fafc;
+      --card-bg: #fff;
+      --border: #e5e7eb;
+      --text-main: #1f2937;
+      --text-muted: #6b7280;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+    }
+    header {
+      background: var(--primary);
+      color: #fff;
+      padding: 1.2rem 0;
+      box-shadow: 0 2px 8px rgba(37,99,235,0.08);
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+    nav {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      position: relative;
+      padding: 0.5rem 0.8rem;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+    nav a:hover {
+      background: rgba(255,255,255,0.13);
+    }
+    main {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 2rem;
+    }
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+    }
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(31,41,55,0.06);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border: 1px solid var(--border);
+      transition: box-shadow 0.2s;
+    }
+    .card:hover {
+      box-shadow: 0 4px 24px rgba(31,41,55,0.12);
+    }
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .user-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--primary);
+    }
+    .user-details h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+    }
+    .user-details p {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+    .stats {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+    .stat {
+      background: var(--bg);
+      border-radius: 8px;
+      padding: 1rem 2rem;
+      text-align: center;
+      flex: 1 1 120px;
+      border: 1px solid var(--border);
+    }
+    .stat h3 {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 0.3rem;
+    }
+    .stat p {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+    .activity {
+      margin-top: 1rem;
+    }
+    .activity-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 1rem;
+      background: var(--card-bg);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .activity-table th,
+    .activity-table td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+    .activity-table th {
+      background: var(--bg);
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .activity-table tr:last-child td {
+      border-bottom: none;
+    }
+    .btn,
+    button,
+    input[type="submit"] {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 0.8rem 1.4rem;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.18s, box-shadow 0.18s;
+      box-shadow: 0 1px 4px rgba(37,99,235,0.08);
+      margin-right: 0.5rem;
+    }
+    .btn:hover,
+    button:hover,
+    input[type="submit"]:hover {
+      background: var(--accent);
+      box-shadow: 0 2px 8px rgba(34,197,94,0.12);
+    }
+    a,
+    label {
+      transition: color 0.15s;
+    }
+    a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+    form {
+      margin-top: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    input,
+    select,
+    textarea {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.7rem 1rem;
+      font-size: 1rem;
+      background: var(--bg);
+      transition: border-color 0.14s;
+    }
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--primary);
+      outline: none;
+    }
+    @media (max-width: 600px) {
+      .container {
+        padding: 0.7rem;
+      }
+      main {
+        gap: 1rem;
+      }
+      .stats {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .card {
+        padding: 1rem;
+      }
+      .user-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.6rem;
+      }
+      nav {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+    }
+    /* Autosave status */
+    #autosave-status {
+      color: var(--accent);
+      font-size: 0.97rem;
+      margin-top: 0.4em;
+      transition: opacity 0.4s;
+      opacity: 0;
+      font-weight: 600;
+    }
+    #autosave-status.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <!-- Preserve all existing navigation links -->
+        <a href="/dashboard">Dashboard</a>
+        <a href="/profile">Profile</a>
+        <a href="/messages">Messages</a>
+        <a href="/settings">Settings</a>
+        <a href="/logout">Logout</a>
+      </nav>
+    </div>
+  </header>
+  <div class="container">
+    <main>
+      <!-- Left sidebar: user info and stats -->
+      <section>
+        <div class="card">
+          <div class="user-info">
+            <img src="user-avatar.jpg" alt="User Avatar" class="user-avatar" />
+            <div class="user-details">
+              <h2>Jane Doe</h2>
+              <p>jane.doe@email.com</p>
+            </div>
+          </div>
+          <div class="stats">
+            <div class="stat">
+              <h3>128</h3>
+              <p>Posts</p>
+            </div>
+            <div class="stat">
+              <h3>524</h3>
+              <p>Followers</p>
+            </div>
+            <div class="stat">
+              <h3>14</h3>
+              <p>Messages</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Main content: recent activity, forms, etc. -->
+      <section>
+        <div class="card activity">
+          <h2>Recent Activity</h2>
+          <table class="activity-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Activity</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2025-08-20</td>
+                <td>Posted a new article</td>
+                <td><span class="btn" style="background: var(--accent);">Published</span></td>
+              </tr>
+              <tr>
+                <td>2025-08-19</td>
+                <td>Updated profile</td>
+                <td><span class="btn">Saved</span></td>
+              </tr>
+              <tr>
+                <td>2025-08-18</td>
+                <td>Sent a message</td>
+                <td><span class="btn" style="background: var(--primary);">Delivered</span></td>
+              </tr>
+              <!-- Keep or generate more rows as needed -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <h2>Quick Actions</h2>
+          <form id="quick-action-form" action="/send-message" method="POST">
+            <label for="recipient">Send Message to:</label>
+            <select id="recipient" name="recipient">
+              <option value="user1">User 1</option>
+              <option value="user2">User 2</option>
+            </select>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="3"></textarea>
+            <input type="submit" value="Send" />
+            <span id="autosave-status">Saved!</span>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script>
+    // Autosave message textarea and recipient selection
+    const form = document.getElementById('quick-action-form');
+    const status = document.getElementById('autosave-status');
+    let autosaveTimeout;
+
+    function autosave() {
+      const data = {
+        recipient: form.recipient.value,
+        message: form.message.value
+      };
+      // Save to localStorage for autosave demo; replace with AJAX for backend autosave
+      localStorage.setItem('autosave-quick-action', JSON.stringify(data));
+      status.classList.add('show');
+      clearTimeout(autosaveTimeout);
+      autosaveTimeout = setTimeout(() => {
+        status.classList.remove('show');
+      }, 1200);
+      // To autosave to server, uncomment below and set the correct endpoint
+      /*
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+      }).then(() => {
+        status.classList.add('show');
+        clearTimeout(autosaveTimeout);
+        autosaveTimeout = setTimeout(() => {
+          status.classList.remove('show');
+        }, 1200);
+      });
+      */
+    }
+
+    form.recipient.addEventListener('change', autosave);
+    form.message.addEventListener('input', autosave);
+
+    // Restore autosaved draft on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      const draft = localStorage.getItem('autosave-quick-action');
+      if(draft) {
+        const data = JSON.parse(draft);
+        form.recipient.value = data.recipient || '';
+        form.message.value = data.message || '';
+      }
+    });
+
+    // Submit keeps autosaved data and sends as normal
+    form.addEventListener('submit', function(e){
+      // Your original JS code or toggles go here
+      // e.preventDefault();
+      // alert('Message sent!');
+    });
+  </script>
+</body>
+</html>
